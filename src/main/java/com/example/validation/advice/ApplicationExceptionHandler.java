@@ -22,6 +22,14 @@ public class ApplicationExceptionHandler {
                 .forEach(error->errorMap.put(error.getField(),error.getDefaultMessage()));
         return errorMap;
     }
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    @ExceptionHandler(NullPointerException.class)
+    public Map<String,String> handleNullPointerException(NullPointerException nullPointerException)
+    {
+        Map<String,String> nullEx = new HashMap<>();
+        nullEx.put("Null Pointer Exception",nullPointerException.getMessage());
+        return nullEx;
+    }
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(userNotFoundException.class)
     public  Map<String,String> handleUserNotFoundException(userNotFoundException ex)

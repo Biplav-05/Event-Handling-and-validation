@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "user_tbl")
+@Table(name = "user_tbl",uniqueConstraints = {@UniqueConstraint(columnNames = "email",name = "email_constraint")})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +19,7 @@ public class User {
     private Integer userId;
     private String name;
     private String address;
+    //2@Column(unique = true)
     private String email;
     private String nationality;
 }
