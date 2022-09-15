@@ -1,37 +1,50 @@
 package com.example.validation.controller;
 
+import com.example.validation.model.ApiResponse;
 import com.example.validation.pojo.StudentPojo;
-import com.example.validation.service.StudentInterface;
+import com.example.validation.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("student/")
-public class StudentController {
+public class StudentController extends ApiResponse {
 
-    private final StudentInterface studentInterface;
+    private final StudentService studentService;
 
-    public StudentController(StudentInterface studentInterface) {
-        this.studentInterface = studentInterface;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     @GetMapping("getDataByPojo")
-    public List<StudentPojo> getStudent()
-    {
-            return studentInterface.getStudentData();
+    public ApiResponse getStudent() {
+        return success("All data are generated...", studentService.getStudentData());
     }
 
-    @GetMapping("findBy/{id}")
-    public StudentPojo findStudent(@PathVariable Integer id)
-    {
-        return studentInterface.searchStudent(id);
-    }
-    @PostMapping("saveStudent")
-    public StudentPojo saveStudent(@RequestBody @Valid StudentPojo studentPojo)
-    {
-        return studentInterface.addStudent(studentPojo);
+    @GetMapping("findBy/{ids}")
+    public ApiResponse findStudent(@PathVariable Integer ids) {
+        return studentService.searchStudent(ids);
     }
 
+    @PostMapping("saveAndUpdate")
+    public ApiResponse saveStudent(@RequestBody @Valid StudentPojo studentPojo) {
+        return studentService.addStudent(studentPojo);
+    }
+
+    @GetMapping("getDataByProjector/{id}")
+    public ApiResponse getPojoData(@PathVariable Integer id)
+    {
+        return success("helo",studentService.getSelectedId(id));
+    }
+    @GetMapping("getDataToStudentPojoTest")
+    public ApiResponse getStudentimitedData()
+    {
+        return studentService.findSpecificData();
+    }
+    @GetMapping("ConcatInProjection/{id}")
+    public ApiResponse concatData(@PathVariable Integer id)
+    {
+        return studentService.fetchStudentData(id);
+    }
 }

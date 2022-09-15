@@ -1,16 +1,21 @@
 package com.example.validation.converter;
 
-import com.example.validation.controller.StudentController;
 import com.example.validation.model.Student;
 import com.example.validation.pojo.StudentPojo;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class StudentConverter {
 
     @Autowired
@@ -29,6 +34,8 @@ public class StudentConverter {
        // return student.stream().map(e->entityToDto(e)).collect(Collectors.toList());
       return   student.stream().map(a->modelMapper.map(a,StudentPojo.class)).collect(Collectors.toList());
     }
+
+
 
     public Student daoToEntity(StudentPojo studentPojo)
     {
